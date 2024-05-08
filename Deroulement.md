@@ -18,3 +18,9 @@ connexion à la base de donnée réussi
 DETAIL:  Failing row contains (null, null, 0, 0, name, Mouse).
         from ./Projet.rb:24:in `insert_data'
         from ./Projet.rb:79:in `<main>'
+
+UPDATE : Ici OrderId est null ce qui cause ce problème. J'ai donc modifier le code pour avoir des Id à chaque insertion mais je me retrouve 
+maintenant avec 'ordername' qui est null également alors que la relation 'orders' ne l'autorise pas. Je ne sais pas ici par quoi je dois
+remplir la colonne ordername.
+
+Sinon le reste des valeur à bien été ajouter tel que les packages, items, label et values.
