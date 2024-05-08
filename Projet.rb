@@ -1,4 +1,23 @@
 require 'rubyXL'
+require 'pg'
+
+def connexion_bdd
+    begin
+        conn = PG.connect(dbname: 'bd', user: 'due', password: 'postgres', host: 'localhost', port: '5432')
+        puts "connexion à la base de donnée réussi"
+        return conn
+    rescue PG::Error => e
+        puts "Erreur lors de la connexion à la base de données : #{e.message}"
+        exit
+    end
+end
+
+#insertion dans la bdd
+def insert_data(conn, table_name, data)
+    columns = data.first.keys.join(",")
+    values = data.map { |row| "(#{row.values.map { |value| "'#{value}'" }.join(",")})" }.join(",")
+    conn.exec("INSERT INTO #{table_name} (#{columns}) VALUES #{values}")
+end
 
 #selectionne le fichier
 monFichier = 'Orders.xlsx'
@@ -48,6 +67,15 @@ orders1.each do |order1|
     puts "-" * 20
 end
 
+#connexion à la bdd
+conn = connexion_bdd
+
+#insertion des données de la feuille 1 dans la bdd
+insert_data(conn, 'orders', orders1)
+
+#fermeture de la connexion à la bdd
+conn.close
+
 f2.each_with_index do |row, index|
     next if index.zero? 
   
@@ -65,6 +93,7 @@ f2.each_with_index do |row, index|
   
     orders2 << order2
 end
+
 puts "-" * 20
 puts "-" * 20
 puts "-" * 20
@@ -76,6 +105,10 @@ orders2.each do |order2|
   puts "Value: #{order2[:values]}"
   puts "-" * 20
 end
+
+conn = connexion_bdd
+insert_data(conn, 'orders', orders2)
+conn.close
 
 f3.each_with_index do |row, index|
     next if index.zero? 
@@ -105,3 +138,7 @@ orders3.each do |order3|
   puts "Value: #{order3[:values]}"
   puts "-" * 20
 end
+
+conn = connexion_bdd
+insert_data(conn, 'orders', orders3)
+conn.close
