@@ -1,7 +1,12 @@
+#!/usr/bin/env ruby
+
 require 'rubyXL'
 require 'pg'
 
-def connexion_bdd
+#require_relative 'bdd.rb'
+#include Bdd
+
+def connexion_bdd 
     begin
         conn = PG.connect(dbname: 'bd', user: 'due', password: 'postgres', host: 'localhost', port: '5432')
         puts "connexion à la base de donnée réussi"
@@ -13,7 +18,7 @@ def connexion_bdd
 end
 
 #insertion dans la bdd
-def insert_data(conn, table_name, data)
+def insert_data(conn, table_name, data) 
     columns = data.first.keys.join(",")
     values = data.map { |row| "(#{row.values.map { |value| "'#{value}'" }.join(",")})" }.join(",")
     conn.exec("INSERT INTO #{table_name} (#{columns}) VALUES #{values}")
@@ -68,10 +73,10 @@ orders1.each do |order1|
 end
 
 #connexion à la bdd
-conn = connexion_bdd
+conn = connexion_bdd #On pourrait ici utiliser : Bdd.connexion_bdd pour ne pas à avoir à écrire tout le code écrit un peu plus haut
 
 #insertion des données de la feuille 1 dans la bdd
-insert_data(conn, 'orders', orders1)
+insert_data(conn, 'orders', orders1) #On pourrait ici utiliser : Bdd.insert_data(conn, 'orders', orders1) pour ne pas à avoir à écrire tout le code un peu plus haut également.
 
 #fermeture de la connexion à la bdd
 conn.close
