@@ -8,7 +8,7 @@ require 'pg'
 
 def connexion_bdd 
     begin
-        conn = PG.connect(dbname: 'postgres', user: 'postgres', password: 'postgres', host: 'localhost', port: '5432')
+        conn = PG.connect(dbname: 'due', user: 'due', password: 'postgres', host: 'localhost', port: '5432')
         puts "connexion à la base de donnée réussi"
         return conn
     rescue PG::Error => e
