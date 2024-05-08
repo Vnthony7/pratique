@@ -52,6 +52,7 @@ f1.each_with_index do |row, index|
 
   #stockage des données dans un hash
   order1 = {
+    orderid: index + 1, #génère un identidiant unique
     packages: packages,
     items: items,
     labels: labels,
@@ -90,6 +91,7 @@ f2.each_with_index do |row, index|
     values = row[3].value
   
     order2 = {
+      orderid: index + 1,
       packages: packages,
       items: items,
       labels: labels,
@@ -124,6 +126,7 @@ f3.each_with_index do |row, index|
     values = row[3].value
   
     order3 = {
+      orderid: index + 1,
       packages: packages,
       items: items,
       labels: labels,
